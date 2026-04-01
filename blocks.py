@@ -126,6 +126,10 @@ BLOCKS = {
         solid=False,
         texture_mode="function4-animated",
         texture_function=water_texture
+    ),
+    4: BlockType(
+        "box",
+        50
     )
 }
 

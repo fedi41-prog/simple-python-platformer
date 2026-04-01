@@ -1,6 +1,7 @@
 import sys
 import subprocess
 
+from background import Background
 from camera import Camera
 from chubzik import Chubzik
 from cursor import Cursor
@@ -47,6 +48,8 @@ def main():
     tm: TextureManager = TextureManager(gc)
     tm.load_all_texture_packs()
 
+    background = Background(gc)
+
     player = Chubzik(500*gc.base_tile_size, 32, gc)
     player.load_textures(tm)
 
@@ -57,7 +60,7 @@ def main():
  
     # Game loop.
     while True:
-        screen.fill((0, 0, 0))
+        screen.fill((17, 167, 242))
   
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -73,7 +76,7 @@ def main():
         if pressed_buttons[0]:
             world.setBlock(cursor.x, cursor.y, 0)
         elif pressed_buttons[2]:
-            world.setBlock(cursor.x, cursor.y, 1)
+            world.setBlock(cursor.x, cursor.y, 4)
 
         #testing
         if keys[pygame.K_h]:
@@ -101,6 +104,7 @@ def main():
         #)
 
         # Draw.
+        #background.render(screen, tm)
         world.render(screen, tm, camera.x, camera.y)
         player.render(screen, tm, camera.x, camera.y)
         cursor.render(screen, tm, camera.x, camera.y)
