@@ -1,0 +1,9 @@
+
+
+class Entity:
+    GET_PLAYER_MASK_COLLISION_EVENTS = False
+    GET_PLAYER_RECT_COLLISION_EVENTS = False
+
+
+
+
