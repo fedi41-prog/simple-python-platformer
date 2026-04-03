@@ -28,7 +28,7 @@ from world import World, generate_blocks
 BLOCK_SIZE = 16
 
 gc = GameConfig(50
-                , BLOCK_SIZE, 1200, 800, True, False)
+                , BLOCK_SIZE, 1200, 800, False, False)
 
 def main():
     pygame.init()

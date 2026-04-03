@@ -1,6 +1,7 @@
 {
   "texturepacks":
           [
-            {"folder": "assets/base", "tile_size": 18}
+            {"folder": "assets/base", "tile_size": 18},
+            {"folder": "assets/hd1", "tile_size": 540}
           ]
 }

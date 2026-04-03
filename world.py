@@ -102,10 +102,10 @@ def generate_blocks(world):
     for x in range(world.width):
         for y in range(0, world.height):
             if y >= h:
-                if y == h:
-                    world.setBlock(x, y, 1)
-                else:
-                    world.setBlock(x, y, 6)#random.choice([1,2]))
+                #if y == h:
+                world.setBlock(x, y, 1)
+                #else:
+                #    world.setBlock(x, y, 6)#random.choice([1,2]))
             #elif y > world.height // 2:
             #    world.setBlock(x, y, 3)
         h += random.randint(-3, 3)

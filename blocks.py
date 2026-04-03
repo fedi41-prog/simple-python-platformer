@@ -122,7 +122,7 @@ BLOCKS = {
                  ),
     3: BlockType(
         "water",                # WATER
-        145,
+        57,
         solid=False,
         texture_mode="function4-animated",
         texture_function=water_texture
