@@ -1,6 +1,23 @@
 import sys
 import subprocess
 
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+try: 
+    import pygame
+    from pygame.locals import *
+except ImportError:
+    print("pygame is not installed")
+    print("installing...")
+    install("pygame")
+    print("please restart the game (:")
+    exit()
+
+
+
+
+
 from background import Background
 from camera import Camera
 from chubzik import Chubzik
@@ -9,20 +26,6 @@ from hotbar import BlockHotbar
 from textures import TextureManager
 from game_config import GameConfig
 
-
-
-def install(package):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-
-try: 
-    import pygame
-    from pygame.locals import *
-except ImportError:
-    install("pygame")
-    import pygame
-    from pygame.locals import *
-    
-import textures
 from world import World, generate_blocks
 
 BLOCK_SIZE = 16
@@ -53,13 +56,14 @@ def main():
 
     background = Background(gc)
 
-    player = Chubzik(500*gc.base_tile_size, 1000, gc)
+    player = Chubzik(500*gc.base_tile_size, 999*gc.base_tile_size, gc)
     player.load_textures(tm)
 
     cursor = Cursor(gc)
     hotbar = BlockHotbar(gc, [1,2,3,4,5,6])
 
     camera = Camera()
+    camera.update(player.rect.center[0] * gc.render_scale - gc.screen_width / 2, player.rect.center[1] * gc.render_scale - gc.screen_height / 2)
 
  
     # Game loop.

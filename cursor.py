@@ -51,6 +51,3 @@ class Cursor:
         self.real_y = self.gc.px_to_block_float(mouse_pos[1]+cam_y)
         self.real_x, self.real_y = clamp_distance((self.real_x, self.real_y), (self.player_x,self.player_y), self.max_distance)
         self.x, self.y = round(self.real_x-0.5), round(self.real_y-0.5)
-
-        print(self.real_x, self.real_y)
-
