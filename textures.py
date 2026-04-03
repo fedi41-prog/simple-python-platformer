@@ -2,30 +2,15 @@ import json
 import os
 import pygame
 
+from game_config import GameConfig
+
+
 def load_img(path:str, scale:float, convert_to_alpha=True):
     img = pygame.image.load(path)
     if convert_to_alpha: img = img.convert_alpha()
     img = pygame.transform.scale_by(img, scale)
     return img
 
-class GameConfig(object):
-    def __init__(self, render_tile_size, base_tile_size, screen_width, screen_height, debug=False, hack=False):
-        self.base_tile_size = base_tile_size
-        self.render_scale = render_tile_size / base_tile_size
-        self.render_tile_size = render_tile_size
-        self.screen_width = screen_width
-        self.screen_height = screen_height
-        self.debug = debug
-        self.hack = hack
-
-        print(self.base_tile_size, self.render_scale, self.render_tile_size)
-
-    def px_to_block(self, a):
-        return round(a / self.render_scale / self.base_tile_size)
-    def px_to_gu(self, a):
-        return a / self.render_scale
-    def gu_to_block(self, a):
-        return a // self.base_tile_size
 
 class TextureManager:
     def __init__(self, gc:GameConfig):

@@ -43,7 +43,7 @@ def get_neighbors8(world, x, y, block_type):
     b  = same(x, y+1)
     l  = same(x-1, y)
 
-    # 🔥 diagonalen nur wenn beide seiten da sind
+    # diagonalen nur wenn beide seiten da sind
     tl = same(x-1, y-1) if t and l else False
     tr = same(x+1, y-1) if t and r else False
     bl = same(x-1, y+1) if b and l else False
@@ -51,3 +51,25 @@ def get_neighbors8(world, x, y, block_type):
 
     return t, r, b, l, tl, tr, bl, br
 
+def clamp_distance(p, center, max_dist):
+    """
+    Begrenzt den Punkt p auf max_dist Abstand von center.
+
+    p: (x, y)
+    center: (cx, cy)
+    max_dist: maximale Distanz
+    """
+    dx = p[0] - center[0]
+    dy = p[1] - center[1]
+
+    dist = math.hypot(dx, dy)
+
+    if dist <= max_dist or dist == 0:
+        return p  # nichts ändern
+
+    # normalisieren und skalieren
+    scale = max_dist / dist
+    new_x = center[0] + dx * scale
+    new_y = center[1] + dy * scale
+
+    return (new_x, new_y)

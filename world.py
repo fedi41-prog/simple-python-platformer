@@ -1,10 +1,11 @@
 import random
-from multiprocessing.pool import worker
 
 import pygame
 
 from blocks import BLOCKS
-from textures import TextureManager, GameConfig
+from textures import TextureManager
+from game_config import GameConfig
+
 from util import get_neighbors8, get_mask4
 
 
@@ -79,8 +80,18 @@ class World:
         if self.block_animation_tick == 16: self.block_animation_tick = 0
             
     def setBlock(self,x:int,y:int,block_id:int):
-        if x >= self.width or x < 0 or y < 0 or y >= self.height: return
+        if x >= self.width or x < 0 or y < 0 or y >= self.height: return False
         self.blocks[x][y] = block_id
+        return True
+    def placeBlockIfAir(self,x:int,y:int,block_id:int):
+        if x >= self.width or x < 0 or y < 0 or y >= self.height: return False
+        if self.blocks[x][y] != 0: return False
+        self.placeBlock(x,y,block_id)
+        return True
+    def placeBlock(self,x:int,y:int,block_id:int):
+        if not self.setBlock(x,y,block_id): return
+        if block_id == 3:
+            self.placeBlockIfAir(x, y+1, block_id)
     def isSolid(self, x:int, y:int):
         if x >= self.width or x < 0 or y < 0 or y >= self.height: return False
         return BLOCKS[self.blocks[x][y]].solid
@@ -91,7 +102,10 @@ def generate_blocks(world):
     for x in range(world.width):
         for y in range(0, world.height):
             if y >= h:
-                world.setBlock(x, y, random.choice([1,2]))
+                if y == h:
+                    world.setBlock(x, y, 1)
+                else:
+                    world.setBlock(x, y, 6)#random.choice([1,2]))
             #elif y > world.height // 2:
             #    world.setBlock(x, y, 3)
         h += random.randint(-3, 3)

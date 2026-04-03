@@ -5,7 +5,10 @@ from background import Background
 from camera import Camera
 from chubzik import Chubzik
 from cursor import Cursor
-from textures import TextureManager, GameConfig
+from hotbar import BlockHotbar
+from textures import TextureManager
+from game_config import GameConfig
+
 
 
 def install(package):
@@ -25,7 +28,7 @@ from world import World, generate_blocks
 BLOCK_SIZE = 16
 
 gc = GameConfig(50
-                , BLOCK_SIZE, 1200, 800, False, False)
+                , BLOCK_SIZE, 1200, 800, True, False)
 
 def main():
     pygame.init()
@@ -50,13 +53,14 @@ def main():
 
     background = Background(gc)
 
-    player = Chubzik(500*gc.base_tile_size, 32, gc)
+    player = Chubzik(500*gc.base_tile_size, 1000, gc)
     player.load_textures(tm)
 
     cursor = Cursor(gc)
+    hotbar = BlockHotbar(gc, [1,2,3,4,5,6])
 
     camera = Camera()
-    camera.update(100, 32)
+
  
     # Game loop.
     while True:
@@ -68,21 +72,26 @@ def main():
                 sys.exit()
             if event.type == MOUSEBUTTONDOWN:
                 pass
+            if event.type == pygame.MOUSEWHEEL:
+                hotbar.on_scroll(event.y)
+
         # events
         keys = pygame.key.get_pressed()
         mouse = pygame.mouse.get_pos()
         pressed_buttons = pygame.mouse.get_pressed()
 
         if pressed_buttons[0]:
-            world.setBlock(cursor.x, cursor.y, 0)
+            world.placeBlock(cursor.x, cursor.y, 0)
         elif pressed_buttons[2]:
-            world.setBlock(cursor.x, cursor.y, 4)
+            world.placeBlockIfAir(cursor.x, cursor.y, hotbar.get_block())
 
         #testing
         if keys[pygame.K_h]:
             gc.hack = not gc.hack
         if keys[pygame.K_o]:
             world.setBlock(player.rect.center[0]//gc.base_tile_size, player.rect.center[1]//gc.base_tile_size, 1)
+        if keys[pygame.K_p]:
+            camera.update(player.rect.center[0] * gc.render_scale - gc.screen_width / 2, player.rect.center[1] * gc.render_scale - gc.screen_height / 2)
 
         #update
 
@@ -108,6 +117,7 @@ def main():
         world.render(screen, tm, camera.x, camera.y)
         player.render(screen, tm, camera.x, camera.y)
         cursor.render(screen, tm, camera.x, camera.y)
+        hotbar.render(screen, tm)
 
         # DEBUG
         if gc.debug:

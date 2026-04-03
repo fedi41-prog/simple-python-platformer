@@ -4,7 +4,8 @@ import pygame
 from pygame.sprite import Sprite
 
 
-from textures import TextureManager, GameConfig
+from textures import TextureManager
+from game_config import GameConfig
 from world import get_colliding_tiles
 
 

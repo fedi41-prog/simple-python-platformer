@@ -1,4 +1,6 @@
-from textures import TextureManager, GameConfig
+from textures import TextureManager
+from game_config import GameConfig
+
 
 
 class Background:
